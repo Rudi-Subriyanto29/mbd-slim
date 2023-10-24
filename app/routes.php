@@ -133,7 +133,7 @@ return function (App $app) {
         $results = $query->fetchAll(PDO::FETCH_ASSOC);
         $response->getBody()->write(json_encode($results[0]));
 
-        return $response->withHeader("Content-Type", "application/json");
+        return $response->withHeader("Content-Type", "application/json");nandandin
     });
 
     // post data
