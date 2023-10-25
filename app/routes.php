@@ -136,6 +136,91 @@ return function (App $app) {
         return $response->withHeader("Content-Type", "application/json");
     });
 
+    // karyawan 
+    $app->get('/karyawan/{ID_Karyawan}', function (Request $request, Response $response, $args) {
+        $db = $this->get(PDO::class);
+
+        $query = $db->prepare('SELECT * FROM karyawan WHERE ID_Karyawan=?');
+        $query->execute([$args['ID_Karyawan']]);
+        $results = $query->fetchAll(PDO::FETCH_ASSOC);
+        $response->getBody()->write(json_encode($results[0]));
+
+        return $response->withHeader("Content-Type", "application/json");
+    });
+
+     // mobil 
+     $app->get('/mobil/{ID_Mobil}', function (Request $request, Response $response, $args) {
+        $db = $this->get(PDO::class);
+
+        $query = $db->prepare('SELECT * FROM mobil WHERE ID_Mobil=?');
+        $query->execute([$args['ID_Mobil']]);
+        $results = $query->fetchAll(PDO::FETCH_ASSOC);
+        $response->getBody()->write(json_encode($results[0]));
+
+        return $response->withHeader("Content-Type", "application/json");
+    });
+
+     // karyawan 
+     $app->get('/model_mobil/{ID_Model}', function (Request $request, Response $response, $args) {
+        $db = $this->get(PDO::class);
+
+        $query = $db->prepare('SELECT * FROM model_mobil WHERE ID_Model=?');
+        $query->execute([$args['ID_Model']]);
+        $results = $query->fetchAll(PDO::FETCH_ASSOC);
+        $response->getBody()->write(json_encode($results[0]));
+
+        return $response->withHeader("Content-Type", "application/json");
+    });
+
+     // pabrik
+     $app->get('/pabrik/{ID_Pabrik}', function (Request $request, Response $response, $args) {
+        $db = $this->get(PDO::class);
+
+        $query = $db->prepare('SELECT * FROM pabrik WHERE ID_Pabrik=?');
+        $query->execute([$args['ID_Pabrik']]);
+        $results = $query->fetchAll(PDO::FETCH_ASSOC);
+        $response->getBody()->write(json_encode($results[0]));
+
+        return $response->withHeader("Content-Type", "application/json");
+    });
+    
+     // pabrikasi
+     $app->get('/pabrikasi_mobil/{ID_Pabrikasi}', function (Request $request, Response $response, $args) {
+        $db = $this->get(PDO::class);
+
+        $query = $db->prepare('SELECT * FROM pabrikasi_mobil WHERE ID_Pabrikasi=?');
+        $query->execute([$args['ID_Pabrikasi']]);
+        $results = $query->fetchAll(PDO::FETCH_ASSOC);
+        $response->getBody()->write(json_encode($results[0]));
+
+        return $response->withHeader("Content-Type", "application/json");
+    });
+
+     // pemasok
+     $app->get('/pemasok/{ID_Pemasok}', function (Request $request, Response $response, $args) {
+        $db = $this->get(PDO::class);
+
+        $query = $db->prepare('SELECT * FROM pemasok WHERE ID_Pemasok=?');
+        $query->execute([$args['ID_Pemasok']]);
+        $results = $query->fetchAll(PDO::FETCH_ASSOC);
+        $response->getBody()->write(json_encode($results[0]));
+
+        return $response->withHeader("Content-Type", "application/json");
+    });
+
+     // suku cadang
+     $app->get('/suku_cadang/{ID_Suku_Cadang}', function (Request $request, Response $response, $args) {
+        $db = $this->get(PDO::class);
+
+        $query = $db->prepare('SELECT * FROM suku_cadang WHERE ID_Suku_Cadang=?');
+        $query->execute([$args['ID_Suku_Cadang']]);
+        $results = $query->fetchAll(PDO::FETCH_ASSOC);
+        $response->getBody()->write(json_encode($results[0]));
+
+        return $response->withHeader("Content-Type", "application/json");
+    });
+    
+    
     // post data
     $app->post('/bahan_baku', function (Request $request, Response $response, $args) {
         $parsedBody = $request->getParsedBody();
