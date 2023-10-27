@@ -253,77 +253,43 @@ return function (App $app) {
     }); 
 
 
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     // put data
-    $app->put('/countries/{id}', function (Request $request, Response $response, $args) {
+    $app->put('/bahan_baku/{id}', function (Request $request, Response $response, $args) {
         $parsedBody = $request->getParsedBody();
 
-        $currentId = $args['id'];
-        $countryName = $parsedBody["name"];
+        $idPengguna = $args['id'];
+        $nama = $parsedBody["nama"];
+        $email = $parsedBody["email"];
+
         $db = $this->get(PDO::class);
 
-        $query = $db->prepare('UPDATE countries SET name = ? WHERE id = ?');
-        $query->execute([$countryName, $currentId]);
+        // Membuat panggilan ke stored procedure ubahPengguna
+        $query = $db->prepare('CALL ubahPengguna(:idPengguna, :nama, :email)');
+        $query->bindParam(':idPengguna', $idPengguna, PDO::PARAM_INT);
+        $query->bindParam(':nama', $nama, PDO::PARAM_STR);
+        $query->bindParam(':email', $email, PDO::PARAM_STR);
+
+        $query->execute();
 
         $response->getBody()->write(json_encode(
             [
-                'message' => 'country dengan id ' . $currentId . ' telah diupdate dengan nama ' . $countryName
+                'message' => 'Pengguna dengan ID ' . $idPengguna . ' telah diupdate'
             ]
         ));
 
         return $response->withHeader("Content-Type", "application/json");
     });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-
-    // delete data
-    $app->delete('/countries/{id}', function (Request $request, Response $response, $args) {
+    //delete
+    $app->delete('/user/{id}', function (Request $request, Response $response, $args) {
         $currentId = $args['id'];
         $db = $this->get(PDO::class);
 
         try {
-            $query = $db->prepare('DELETE FROM countries WHERE id = ?');
-            $query->execute([$currentId]);
+            // Membuat panggilan ke stored procedure hapusPengguna
+            $query = $db->prepare('CALL hapusPengguna(:idPengguna)');
+            $query->bindParam(':idPengguna', $currentId, PDO::PARAM_INT);
+            $query->execute();
 
             if ($query->rowCount() === 0) {
                 $response = $response->withStatus(404);
@@ -335,7 +301,7 @@ return function (App $app) {
             } else {
                 $response->getBody()->write(json_encode(
                     [
-                        'message' => 'country dengan id ' . $currentId . ' dihapus dari database'
+                        'message' => 'Pengguna dengan ID ' . $currentId . ' telah dihapus dari database'
                     ]
                 ));
             }
@@ -350,4 +316,13 @@ return function (App $app) {
 
         return $response->withHeader("Content-Type", "application/json");
     });
+
+
+
+
+
+    
+
 };
+
+
