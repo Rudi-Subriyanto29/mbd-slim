@@ -222,7 +222,7 @@ return function (App $app) {
     
     
     // post data
-    $app->post('/bahan_baku', function (Request $request, Response $response, $args) {
+    $app->post('/bahan_baku', function (Request $request, Response $response) {
         $parsedBody = $request->getParsedBody();
 
         $ID_Bahan = $parsedBody["ID_Bahan"]; // menambah dengan kolom baru
@@ -230,24 +230,48 @@ return function (App $app) {
         $Nama_Bahan = $parsedBody["Nama_Bahan"];
         $Harga_Bahan = $parsedBody["Harga_Bahan"];
         $Jumlah_Stok = $parsedBody["Jumlah_Stok"];
-
+        
         $db = $this->get(PDO::class);
 
-        $query = $db->prepare('INSERT INTO bahan_baku (ID_Bahan, ID_Pemasok, Nama_Bahan, Harga_Bahan, Jumlah_Stok) values (?, ?, ?, ?, ?)');
+        // Membuat panggilan ke stored procedure tambahPengguna
+        $query = $db->prepare('CALL insert_Bahan_Baku(:ID_Bahan, :ID_Pemasok, :Nama_Bahan, :Harga_Bahan, :Jumlah_Stok)');
+        $query->bindParam(':ID_Bahan', $ID_Bahan, PDO::PARAM_STR);
+        $query->bindParam(':ID_Pemasok', $ID_Pemasok, PDO::PARAM_STR);
+        $query->bindParam(':Nama_Bahan', $Nama_Bahan, PDO::PARAM_STR);
+        $query->bindParam(':Harga_Bahan', $Harga_Bahan, PDO::PARAM_STR);
+        $query->bindParam(':Jumlah_Stok', $Jumlah_Stok, PDO::PARAM_STR);
 
-        // urutan harus sesuai dengan values
-        $query->execute([$ID_Bahan, $ID_Pemasok, $Nama_Bahan, $Harga_Bahan, $Jumlah_Stok]);
-
-        $lastId = $db->lastInsertId();
+        $query->execute();
 
         $response->getBody()->write(json_encode(
             [
-                'message' => 'berhasil tambahkan data dalam table bahan_baku ' . $lastId
+                'message' => 'Data di tambahkan'
             ]
         ));
 
         return $response->withHeader("Content-Type", "application/json");
-    });
+    }); 
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     // put data
     $app->put('/countries/{id}', function (Request $request, Response $response, $args) {
@@ -268,6 +292,29 @@ return function (App $app) {
 
         return $response->withHeader("Content-Type", "application/json");
     });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
 
     // delete data
     $app->delete('/countries/{id}', function (Request $request, Response $response, $args) {
