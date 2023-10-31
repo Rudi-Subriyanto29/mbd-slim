@@ -221,6 +221,53 @@ return function (App $app) {
     });
     
     
+
+
+
+
+
+
+
+
+
+
+
+// get
+$app->get('/bahan_baku', function (Request $request, Response $response) {
+    $db = $this->get(PDO::class);
+
+    $query = $db->query('CALL lihatPengguna()');
+    $results = $query->fetchAll(PDO::FETCH_ASSOC);
+    $response->getBody()->write(json_encode($results));
+
+    return $response->withHeader("Content-Type", "application/json");
+});
+
+
+// get by id
+$app->get('/bahan_baku/{id}', function (Request $request, Response $response, $args) {
+    $db = $this->get(PDO::class);
+
+    $query = $db->prepare('CALL getUserById(:id)');
+    $query->execute(['id' => $args['id']]);
+    $results = $query->fetchAll(PDO::FETCH_ASSOC);
+    $response->getBody()->write(json_encode($results[0]));
+
+    return $response->withHeader("Content-Type", "application/json");
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
     // post data
     $app->post('/bahan_baku', function (Request $request, Response $response) {
         $parsedBody = $request->getParsedBody();
