@@ -454,6 +454,7 @@ return function (App $app) {
 
 
     // post data
+    //bahan baku 
     $app->post('/bahan_baku', function (Request $request, Response $response) {
         $parsedBody = $request->getParsedBody();
 
@@ -483,6 +484,78 @@ return function (App $app) {
 
         return $response->withHeader("Content-Type", "application/json");
     }); 
+
+
+    //departemen
+    $app->post('/departemen', function (Request $request, Response $response) {
+        $parsedBody = $request->getParsedBody();
+
+        $ID_Departemen = $parsedBody["ID_Departemen"]; // menambah dengan kolom baru
+        $ID_Pabrik = $parsedBody["ID_Pabrik"];
+        $Nama_Departemen = $parsedBody["Nama_Departemen"];
+     
+        
+        $db = $this->get(PDO::class);
+
+        // Membuat panggilan ke stored procedure tambahPengguna
+        $query = $db->prepare('CALL insert_Departemen(:ID_Departemen, :ID_Pabrik, :Nama_Departemen)');
+        $query->bindParam(':ID_Departemen', $ID_Departemen, PDO::PARAM_STR);
+        $query->bindParam(':ID_Pabrik', $ID_Pabrik, PDO::PARAM_STR);
+        $query->bindParam(':Nama_Departemen', $Nama_Departemen, PDO::PARAM_STR);
+
+        $query->execute();
+
+        $response->getBody()->write(json_encode(
+            [
+                'message' => 'Data di tambahkan'
+            ]
+        ));
+
+        return $response->withHeader("Content-Type", "application/json");
+    }); 
+
+
+    //karyawan
+    $app->post('/karyawan', function (Request $request, Response $response) {
+        $parsedBody = $request->getParsedBody();
+
+        $ID_Karyawan = $parsedBody["ID_Karyawan"]; // menambah dengan kolom baru
+        $ID_Departemen = $parsedBody["ID_Departemen"];
+        $Nama_Karyawan = $parsedBody["Nama_Karyawan"];
+        $Jabatan = $parsedBody["Jabatan"];
+        $Tanggal_Masuk = $parsedBody["Tanggal_Masuk"];
+        
+        $db = $this->get(PDO::class);
+
+        // Membuat panggilan ke stored procedure tambahPengguna
+        $query = $db->prepare('CALL insert_Karyawan(:ID_Karyawan, :ID_Departemen, :Nama_Karyawan, :Jabatan, :Tanggal_Masuk)');
+        $query->bindParam(':ID_Karyawan', $ID_Karyawan, PDO::PARAM_STR);
+        $query->bindParam(':ID_Departemen', $ID_Departemen, PDO::PARAM_STR);
+        $query->bindParam(':Nama_Karyawan', $Nama_Karyawan, PDO::PARAM_STR);
+        $query->bindParam(':Jabatan', $Jabatan, PDO::PARAM_STR);
+        $query->bindParam(':Tanggal_Masuk', $Tanggal_Masuk, PDO::PARAM_STR);
+
+        $query->execute();
+
+        $response->getBody()->write(json_encode(
+            [
+                'message' => 'Data di tambahkan'
+            ]
+        ));
+
+        return $response->withHeader("Content-Type", "application/json");
+    }); 
+
+
+
+
+
+
+    
+
+
+
+
 
 
     // put data
