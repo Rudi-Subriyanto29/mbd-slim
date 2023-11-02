@@ -467,7 +467,7 @@ return function (App $app) {
         $db = $this->get(PDO::class);
 
         // Membuat panggilan ke stored procedure tambahPengguna
-        $query = $db->prepare('CALL insert_Bahan_Baku(:ID_Bahan, :ID_Pemasok, :Nama_Bahan, :Harga_Bahan, :Jumlah_Stok)');
+        $query = $db->prepare('CALL Insert_Bahan_Baku(:ID_Bahan, :ID_Pemasok, :Nama_Bahan, :Harga_Bahan, :Jumlah_Stok)');
         $query->bindParam(':ID_Bahan', $ID_Bahan, PDO::PARAM_STR);
         $query->bindParam(':ID_Pemasok', $ID_Pemasok, PDO::PARAM_STR);
         $query->bindParam(':Nama_Bahan', $Nama_Bahan, PDO::PARAM_STR);
@@ -498,7 +498,7 @@ return function (App $app) {
         $db = $this->get(PDO::class);
 
         // Membuat panggilan ke stored procedure tambahPengguna
-        $query = $db->prepare('CALL insert_Departemen(:ID_Departemen, :ID_Pabrik, :Nama_Departemen)');
+        $query = $db->prepare('CALL Insert_Departemen(:ID_Departemen, :ID_Pabrik, :Nama_Departemen)');
         $query->bindParam(':ID_Departemen', $ID_Departemen, PDO::PARAM_STR);
         $query->bindParam(':ID_Pabrik', $ID_Pabrik, PDO::PARAM_STR);
         $query->bindParam(':Nama_Departemen', $Nama_Departemen, PDO::PARAM_STR);
@@ -528,7 +528,7 @@ return function (App $app) {
         $db = $this->get(PDO::class);
 
         // Membuat panggilan ke stored procedure tambahPengguna
-        $query = $db->prepare('CALL insert_Karyawan(:ID_Karyawan, :ID_Departemen, :Nama_Karyawan, :Jabatan, :Tanggal_Masuk)');
+        $query = $db->prepare('CALL Insert_Karyawan(:ID_Karyawan, :ID_Departemen, :Nama_Karyawan, :Jabatan, :Tanggal_Masuk)');
         $query->bindParam(':ID_Karyawan', $ID_Karyawan, PDO::PARAM_STR);
         $query->bindParam(':ID_Departemen', $ID_Departemen, PDO::PARAM_STR);
         $query->bindParam(':Nama_Karyawan', $Nama_Karyawan, PDO::PARAM_STR);
@@ -547,15 +547,190 @@ return function (App $app) {
     }); 
 
 
+     //mobil
+     $app->post('/mobil', function (Request $request, Response $response) {
+        $parsedBody = $request->getParsedBody();
+
+        $ID_Mobil = $parsedBody["ID_Mobil"]; // menambah dengan kolom baru
+        $ID_Pabrik = $parsedBody["ID_Pabrik"];
+        $ID_Bahan = $parsedBody["ID_Bahan"];
+        $ID_Model = $parsedBody["ID_Model"];
+        $Nama_Mobil = $parsedBody["Nama_Mobil"];
+        $Tahun_Produksi = $parsedBody["Tahun_Produksi"];
+        $Warna_Mobil = $parsedBody["Warna_Mobil"];
+
+        $db = $this->get(PDO::class);
+
+        // Membuat panggilan ke stored procedure tambahPengguna
+        $query = $db->prepare('CALL Insert_Mobil(:ID_Mobil, :ID_Pabrik, :ID_Bahan, :ID_Model, :Nama_Mobil, :Tahun_Produksi, :Warna_Mobil)');
+        $query->bindParam(':ID_Mobil', $ID_Mobil, PDO::PARAM_STR);
+        $query->bindParam(':ID_Pabrik', $ID_Pabrik, PDO::PARAM_STR);
+        $query->bindParam(':ID_Bahan', $ID_Bahan, PDO::PARAM_STR);
+        $query->bindParam(':ID_Model', $ID_Model, PDO::PARAM_STR);
+        $query->bindParam(':Nama_Mobil', $Nama_Mobil, PDO::PARAM_STR);
+        $query->bindParam(':Tahun_Produksi', $Tahun_Produksi, PDO::PARAM_STR);
+        $query->bindParam(':Warna_Mobil', $Warna_Mobil, PDO::PARAM_STR);
+
+        $query->execute();
+
+        $response->getBody()->write(json_encode(
+            [
+                'message' => 'Data di tambahkan'
+            ]
+        ));
+
+        return $response->withHeader("Content-Type", "application/json");
+    }); 
 
 
+    //model mobil
+    $app->post('/model_mobil', function (Request $request, Response $response) {
+        $parsedBody = $request->getParsedBody();
+
+        $ID_Model = $parsedBody["ID_Model"]; // menambah dengan kolom baru
+        $Nama_Model = $parsedBody["Nama_Model"];
+        $Spesifikasi_Model = $parsedBody["Spesifikasi_Model"];
+       
+
+        $db = $this->get(PDO::class);
+
+        // Membuat panggilan ke stored procedure tambahPengguna
+        $query = $db->prepare('CALL Insert_Model_Mobil(:ID_Model, :Nama_Model, :Spesifikasi_Model)');
+        $query->bindParam(':ID_Model', $ID_Model, PDO::PARAM_STR);
+        $query->bindParam(':Nama_Model', $Nama_Model, PDO::PARAM_STR);
+        $query->bindParam(':Spesifikasi_Model', $Spesifikasi_Model, PDO::PARAM_STR);
+        
+
+        $query->execute();
+
+        $response->getBody()->write(json_encode(
+            [
+                'message' => 'Data di tambahkan'
+            ]
+        ));
+
+        return $response->withHeader("Content-Type", "application/json");
+    }); 
 
 
-    
+    //pabrik
+    $app->post('/pabrik', function (Request $request, Response $response) {
+        $parsedBody = $request->getParsedBody();
+
+        $ID_Pabrik = $parsedBody["ID_Pabrik"]; // menambah dengan kolom baru
+        $Nama_Pabrik = $parsedBody["Nama_Pabrik"];
+        $Alamat_Pabrik = $parsedBody["Alamat_Pabrik"];
+        $Tanggal_Pendirian = $parsedBody["Tanggal_Pendirian"];
+
+        $db = $this->get(PDO::class);
+
+        // Membuat panggilan ke stored procedure tambahPengguna
+        $query = $db->prepare('CALL Insert_Pabrik(:ID_Pabrik, :Nama_Pabrik, :Alamat_Pabrik, :Tanggal_Pendirian)');
+        $query->bindParam(':ID_Pabrik', $ID_Pabrik, PDO::PARAM_STR);
+        $query->bindParam(':Nama_Pabrik', $Nama_Pabrik, PDO::PARAM_STR);
+        $query->bindParam(':Alamat_Pabrik', $Alamat_Pabrik, PDO::PARAM_STR);
+        $query->bindParam(':Tanggal_Pendirian', $Tanggal_Pendirian, PDO::PARAM_STR);
+
+        $query->execute();
+
+        $response->getBody()->write(json_encode(
+            [
+                'message' => 'Data di tambahkan'
+            ]
+        ));
+
+        return $response->withHeader("Content-Type", "application/json");
+    }); 
 
 
+    //Pabrikasi mobil
+    $app->post('/pabrikasi_mobil', function (Request $request, Response $response) {
+        $parsedBody = $request->getParsedBody();
+
+        $ID_Pabrikasi = $parsedBody["ID_Pabrikasi"]; // menambah dengan kolom baru
+        $ID_Mobil = $parsedBody["ID_Mobil"];
+        $ID_Karyawan = $parsedBody["ID_Karyawan"];
+        $Tanggal_Produksi_Pabrikasi = $parsedBody["Tanggal_Produksi_Pabrikasi"];
+        
+        $db = $this->get(PDO::class);
+
+        // Membuat panggilan ke stored procedure tambahPengguna
+        $query = $db->prepare('CALL Insert_Pabrikasi_Mobil(:ID_Pabrikasi, :ID_Mobil, :ID_Karyawan, :Tanggal_Produksi_Pabrikasi)');
+        $query->bindParam(':ID_Pabrikasi', $ID_Pabrikasi, PDO::PARAM_STR);
+        $query->bindParam(':ID_Mobil', $ID_Mobil, PDO::PARAM_STR);
+        $query->bindParam(':ID_Karyawan', $ID_Karyawan, PDO::PARAM_STR);
+        $query->bindParam(':Tanggal_Produksi_Pabrikasi', $Tanggal_Produksi_Pabrikasi, PDO::PARAM_STR);
+       
+        $query->execute();
+
+        $response->getBody()->write(json_encode(
+            [
+                'message' => 'Data di tambahkan'
+            ]
+        ));
+
+        return $response->withHeader("Content-Type", "application/json");
+    }); 
+
+    //Pemasok
+    $app->post('/pemasok', function (Request $request, Response $response) {
+        $parsedBody = $request->getParsedBody();
+
+        $ID_Pemasok = $parsedBody["ID_Pemasok"]; // menambah dengan kolom baru
+        $Nama_Pemasok = $parsedBody["Nama_Pemasok"];
+        $Alamat_Pemasok = $parsedBody["Alamat_Pemasok"];
+        $Kontak_Pemasok = $parsedBody["Kontak_Pemasok"];
+        
+        $db = $this->get(PDO::class);
+
+        // Membuat panggilan ke stored procedure tambahPengguna
+        $query = $db->prepare('CALL Insert_Pemasok(:ID_Pemasok, :Nama_Pemasok, :Alamat_Pemasok, :Kontak_Pemasok)');
+        $query->bindParam(':ID_Pemasok', $ID_Pemasok, PDO::PARAM_STR);
+        $query->bindParam(':Nama_Pemasok', $Nama_Pemasok, PDO::PARAM_STR);
+        $query->bindParam(':Alamat_Pemasok', $Alamat_Pemasok, PDO::PARAM_STR);
+        $query->bindParam(':Kontak_Pemasok', $Kontak_Pemasok, PDO::PARAM_STR);
+       
+        $query->execute();
+
+        $response->getBody()->write(json_encode(
+            [
+                'message' => 'Data di tambahkan'
+            ]
+        ));
+
+        return $response->withHeader("Content-Type", "application/json");
+    }); 
 
 
+    //suku cadang
+    $app->post('/suku_cadang', function (Request $request, Response $response) {
+        $parsedBody = $request->getParsedBody();
+
+        $ID_Suku_Cadang = $parsedBody["ID_Suku_Cadang"]; // menambah dengan kolom baru
+        $ID_Bahan = $parsedBody["ID_Bahan"];
+        $Nama_Suku_Cadang = $parsedBody["Nama_Suku_Cadang"];
+        $Deskripsi_Suku_Cadang = $parsedBody["Deskripsi_Suku_Cadang"];
+        $Harga_Suku_Cadang = $parsedBody["Harga_Suku_Cadang"];
+
+        $db = $this->get(PDO::class);
+
+        // Membuat panggilan ke stored procedure tambahPengguna
+        $query = $db->prepare('CALL Insert_Suku_Cadang(:ID_Suku_Cadang, :ID_Bahan, :Nama_Suku_Cadang, :Deskripsi_Suku_Cadang, :Harga_Suku_Cadang)');
+        $query->bindParam(':ID_Suku_Cadang', $ID_Suku_Cadang, PDO::PARAM_STR);
+        $query->bindParam(':ID_Bahan', $ID_Bahan, PDO::PARAM_STR);
+        $query->bindParam(':Nama_Suku_Cadang', $Nama_Suku_Cadang, PDO::PARAM_STR);
+        $query->bindParam(':Deskripsi_Suku_Cadang', $Deskripsi_Suku_Cadang, PDO::PARAM_STR);
+        $query->bindParam(':Harga_Suku_Cadang', $Harga_Suku_Cadang, PDO::PARAM_STR);
+        $query->execute();
+
+        $response->getBody()->write(json_encode(
+            [
+                'message' => 'Data di tambahkan'
+            ]
+        ));
+
+        return $response->withHeader("Content-Type", "application/json");
+    }); 
 
 
     // put data
