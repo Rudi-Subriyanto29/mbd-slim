@@ -733,33 +733,54 @@ return function (App $app) {
     }); 
 
 
+
     // put data
-    $app->put('/bahan_baku/{id}', function (Request $request, Response $response, $args) {
+    
+    //bahan baku
+    $app->put('/bahan_baku/{ID_Bahan}', function (Request $request, Response $response, $args) {
         $parsedBody = $request->getParsedBody();
-
-        $idPengguna = $args['id'];
-        $nama = $parsedBody["nama"];
-        $email = $parsedBody["email"];
-
+    
+        $ID_Bahan = $args['ID_Bahan'];
+        $ID_Pemasok = $parsedBody["ID_Pemasok"];
+        $Nama_Bahan = $parsedBody["Nama_Bahan"];
+        $Harga_Bahan = $parsedBody["Harga_Bahan"];
+        $Jumlah_Stok = $parsedBody["Jumlah_Stok"];
+    
         $db = $this->get(PDO::class);
-
-        // Membuat panggilan ke stored procedure ubahPengguna
-        $query = $db->prepare('CALL ubahPengguna(:idPengguna, :nama, :email)');
-        $query->bindParam(':idPengguna', $idPengguna, PDO::PARAM_INT);
-        $query->bindParam(':nama', $nama, PDO::PARAM_STR);
-        $query->bindParam(':email', $email, PDO::PARAM_STR);
-
-        $query->execute();
-
-        $response->getBody()->write(json_encode(
-            [
-                'message' => 'Pengguna dengan ID ' . $idPengguna . ' telah diupdate'
-            ]
-        ));
-
+    
+        try {
+            // Membuat panggilan ke stored procedure yang sesuai
+            $query = $db->prepare('CALL Update_Bahan_Baku_ByID(:ID_Bahan, :ID_Pemasok, :Nama_Bahan, :Harga_Bahan, :Jumlah_Stok)');
+            $query->bindParam(':ID_Bahan', $ID_Bahan, PDO::PARAM_INT);
+            $query->bindParam(':ID_Pemasok', $ID_Pemasok, PDO::PARAM_STR);
+            $query->bindParam(':Nama_Bahan', $Nama_Bahan, PDO::PARAM_STR);
+            $query->bindParam(':Harga_Bahan', $Harga_Bahan, PDO::PARAM_STR);
+            $query->bindParam(':Jumlah_Stok', $Jumlah_Stok, PDO::PARAM_INT); // Pastikan ini sesuai dengan tipe data di database
+    
+            $query->execute();
+    
+            $response->getBody()->write(json_encode(
+                [
+                    'message' => 'Data bahan baku dengan ID ' . $ID_Bahan . ' telah diperbarui'
+                ]
+            ));
+        } catch (PDOException $e) {
+            $response = $response->withStatus(500);
+            $response->getBody()->write(json_encode([
+                'message' => 'Terdapat error pada database ' . $e->getMessage()
+            ]));
+        }
+    
         return $response->withHeader("Content-Type", "application/json");
     });
+    
 
+
+
+
+
+
+    
     //delete
     $app->delete('/user/{id}', function (Request $request, Response $response, $args) {
         $currentId = $args['id'];
