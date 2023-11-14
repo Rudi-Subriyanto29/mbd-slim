@@ -626,10 +626,10 @@ return function (App $app) {
 
         // Membuat panggilan ke stored procedure tambahPengguna
         $query = $db->prepare('CALL Insert_Pabrik(:ID_Pabrik, :Nama_Pabrik, :Alamat_Pabrik, :Tanggal_Pendirian)');
-        $query->bindParam(':ID_Pabrik', $ID_Pabrik, PDO::PARAM_STR);
+        $query->bindParam(':ID_Pabrik', $ID_Pabrik, PDO::PARAM_INT);
         $query->bindParam(':Nama_Pabrik', $Nama_Pabrik, PDO::PARAM_STR);
         $query->bindParam(':Alamat_Pabrik', $Alamat_Pabrik, PDO::PARAM_STR);
-        $query->bindParam(':Tanggal_Pendirian', $Tanggal_Pendirian, PDO::PARAM_STR);
+        $query->bindParam(':Tanggal_Pendirian', $Tanggal_Pendirian, PDO::PARAM_DATE);
 
         $query->execute();
 
@@ -775,6 +775,316 @@ return function (App $app) {
     });
     
 
+    //departemen
+    $app->put('/departemen/{ID_Departemen}', function (Request $request, Response $response, $args) {
+        $parsedBody = $request->getParsedBody();
+    
+        $ID_Departemen = $args['ID_Departemen'];
+        $ID_Pabrik = $parsedBody["ID_Pabrik"];
+        $Nama_Departemen = $parsedBody["Nama_Departemen"];
+    
+        $db = $this->get(PDO::class);
+    
+        try {
+            // Membuat panggilan ke stored procedure yang sesuai
+            $query = $db->prepare('CALL Update_Departemen_ByID(:ID_Departemen, :ID_Pabrik, :Nama_Departemen)');
+            $query->bindParam(':ID_Departemen', $ID_Departemen, PDO::PARAM_INT);
+            $query->bindParam(':ID_Pabrik', $ID_Pabrik, PDO::PARAM_STR);
+            $query->bindParam(':Nama_Departemen', $Nama_Departemen, PDO::PARAM_STR);
+            
+            $query->execute();
+    
+            $response->getBody()->write(json_encode(
+                [
+                    'message' => 'Data departemen dengan ID ' . $ID_Departemen . ' telah diperbarui'
+                ]
+            ));
+        } catch (PDOException $e) {
+            $response = $response->withStatus(500);
+            $response->getBody()->write(json_encode([
+                'message' => 'Terdapat error pada database ' . $e->getMessage()
+            ]));
+        }
+    
+        return $response->withHeader("Content-Type", "application/json");
+    });
+
+
+    //karyawan
+    $app->put('/karyawan/{ID_Karyawan}', function (Request $request, Response $response, $args) {
+        $parsedBody = $request->getParsedBody();
+    
+        $ID_Karyawan = $args['ID_Karyawan'];
+        $ID_Departemen = $parsedBody["ID_Departemen"];
+        $Nama_Karyawan = $parsedBody["Nama_Karyawan"];
+        $Jabatan = $parsedBody["Jabatan"];
+        $Tanggal_Masuk = $parsedBody["Tanggal_Masuk"];
+    
+        $db = $this->get(PDO::class);
+    
+        try {
+            // Membuat panggilan ke stored procedure yang sesuai
+            $query = $db->prepare('CALL Update_Karyawan_ByID(:ID_Karyawan, :ID_Departemen, :Nama_Karyawan, :Jabatan, :Tanggal_Masuk)');
+            $query->bindParam(':ID_Karyawan', $ID_Karyawan, PDO::PARAM_INT);
+            $query->bindParam(':ID_Departemen', $ID_Departemen, PDO::PARAM_STR);
+            $query->bindParam(':Nama_Karyawan', $Nama_Karyawan, PDO::PARAM_STR);
+            $query->bindParam(':Jabatan', $Jabatan, PDO::PARAM_STR);
+            $query->bindParam(':Tanggal_Masuk', $Tanggal_Masuk, PDO::PARAM_INT); // Pastikan ini sesuai dengan tipe data di database
+    
+            $query->execute();
+    
+            $response->getBody()->write(json_encode(
+                [
+                    'message' => 'Data Karyawan dengan ID ' . $ID_Karyawan . ' telah diperbarui'
+                ]
+            ));
+        } catch (PDOException $e) {
+            $response = $response->withStatus(500);
+            $response->getBody()->write(json_encode([
+                'message' => 'Terdapat error pada database ' . $e->getMessage()
+            ]));
+        }
+    
+        return $response->withHeader("Content-Type", "application/json");
+    });
+
+
+    //mobil
+    $app->put('/mobil/{ID_Mobil}', function (Request $request, Response $response, $args) {
+        $parsedBody = $request->getParsedBody();
+    
+        $ID_Mobil = $args['ID_Mobil'];
+        $ID_Pabrik = $parsedBody["ID_Pabrik"];
+        $ID_Bahan = $parsedBody["ID_Bahan"];
+        $ID_Model = $parsedBody["ID_Model"];
+        $Nama_Mobil = $parsedBody["Nama_Mobil"];
+        $Tahun_Produksi = $parsedBody["Tahun_Produksi"];
+        $Warna_Mobil = $parsedBody["Warna_Mobil"];
+
+        $db = $this->get(PDO::class);
+    
+        try {
+            // Membuat panggilan ke stored procedure yang sesuai
+            $query = $db->prepare('CALL Update_Mobil_ByID(:ID_Mobil, :ID_Pabrik, :ID_Bahan, :ID_Model, :Nama_Mobil, :Tahun_Produksi, :Warna_Mobil)');
+            $query->bindParam(':ID_Mobil', $ID_Mobil, PDO::PARAM_INT);
+            $query->bindParam(':ID_Pabrik', $ID_Pabrik, PDO::PARAM_INT);
+            $query->bindParam(':ID_Bahan', $ID_Bahan, PDO::PARAM_INT);
+            $query->bindParam(':ID_Model', $ID_Model, PDO::PARAM_INT);
+            $query->bindParam(':Nama_Mobil', $Nama_Mobil, PDO::PARAM_STR); // Pastikan ini sesuai dengan tipe data di database
+            $query->bindParam(':Tahun_Produksi', $Tahun_Produksi, PDO::PARAM_STR);
+            $query->bindParam(':Warna_Mobil', $Warna_Mobil, PDO::PARAM_STR);
+
+            $query->execute();
+    
+            $response->getBody()->write(json_encode(
+                [
+                    'message' => 'Data Mobil dengan ID ' . $ID_Mobil . ' telah diperbarui'
+                ]
+            ));
+        } catch (PDOException $e) {
+            $response = $response->withStatus(500);
+            $response->getBody()->write(json_encode([
+                'message' => 'Terdapat error pada database ' . $e->getMessage()
+            ]));
+        }
+    
+        return $response->withHeader("Content-Type", "application/json");
+    });
+
+
+    //model mobil
+    $app->put('/model_mobil/{ID_Model}', function (Request $request, Response $response, $args) {
+        $parsedBody = $request->getParsedBody();
+    
+        $ID_Model = $args['ID_Model'];
+        $Nama_Model = $parsedBody["Nama_Model"];
+        $Spesifikasi_Model = $parsedBody["Spesifikasi_Model"];
+        
+
+        $db = $this->get(PDO::class);
+    
+        try {
+            // Membuat panggilan ke stored procedure yang sesuai
+            $query = $db->prepare('CALL Update_Model_Mobil_ByID(:ID_Model, :Nama_Model, :Spesifikasi_Model)');
+            $query->bindParam(':ID_Model', $ID_Model, PDO::PARAM_INT);
+            $query->bindParam(':Nama_Model', $Nama_Model, PDO::PARAM_STR);
+            $query->bindParam(':Spesifikasi_Model', $Spesifikasi_Model, PDO::PARAM_STR);
+            
+
+            $query->execute();
+    
+            $response->getBody()->write(json_encode(
+                [
+                    'message' => 'Data Model Mobil dengan ID ' . $ID_Model . ' telah diperbarui'
+                ]
+            ));
+        } catch (PDOException $e) {
+            $response = $response->withStatus(500);
+            $response->getBody()->write(json_encode([
+                'message' => 'Terdapat error pada database ' . $e->getMessage()
+            ]));
+        }
+    
+        return $response->withHeader("Content-Type", "application/json");
+    });
+
+
+    //pabrik
+    $app->put('/pabrik/{ID_Pabrik}', function (Request $request, Response $response, $args) {
+        $parsedBody = $request->getParsedBody();
+    
+        $ID_Pabrik = $args['ID_Pabrik'];
+        $Nama_Pabrik = $parsedBody["Nama_Pabrik"];
+        $Alamat_Pabrik = $parsedBody["Alamat_Pabrik"];
+        $Tanggal_Pendirian = $parsedBody["Tanggal_Pendirian"];
+
+        $db = $this->get(PDO::class);
+    
+        try {
+            // Membuat panggilan ke stored procedure yang sesuai
+            $query = $db->prepare('CALL Update_Pabrik_ByID(:ID_Pabrik, :ID_Pabrik, :Nama_Pabrik, :Alamat_Pabrik, :Tanggal_Pendirian)');
+            $query->bindParam(':ID_Pabrik', $ID_Pabrik, PDO::PARAM_INT);
+            $query->bindParam(':Nama_Pabrik', $Nama_Pabrik, PDO::PARAM_STR);
+            $query->bindParam(':Alamat_Pabrik', $Alamat_Pabrik, PDO::PARAM_STR);
+            $query->bindParam(':Tanggal_Pendirian', $Tanggal_Pendirian, PDO::PARAM_DATE); // Pastikan ini sesuai dengan tipe data di database
+         
+            $query->execute();
+    
+            $response->getBody()->write(json_encode(
+                [
+                    'message' => 'Data Mobil dengan ID ' . $ID_Pabrik . ' telah diperbarui'
+                ]
+            ));
+        } catch (PDOException $e) {
+            $response = $response->withStatus(500);
+            $response->getBody()->write(json_encode([
+                'message' => 'Terdapat error pada database ' . $e->getMessage()
+            ]));
+        }
+    
+        return $response->withHeader("Content-Type", "application/json");
+    });
+
+
+    
+    //pabrikasi mobil
+    $app->put('/pabrikasi_mobil/{ID_Pabrikasi}', function (Request $request, Response $response, $args) {
+        $parsedBody = $request->getParsedBody();
+    
+        $ID_Pabrikasi = $args['ID_Pabrikasi'];
+        $ID_Mobil = $parsedBody["ID_Mobil"];
+        $ID_Karyawan = $parsedBody["ID_Karyawan"];
+        $Tanggal_Produksi_Pabrikasi = $parsedBody["Tanggal_Produksi_Pabrikasi"];
+
+        $db = $this->get(PDO::class);
+    
+        try {
+            // Membuat panggilan ke stored procedure yang sesuai
+            $query = $db->prepare('CALL Update_Pabrikasi_Mobil_ByID(:ID_Pabrikasi, :ID_Mobil, :ID_Karyawan, :Tanggal_Produksi_Pabrikasi)');
+            $query->bindParam(':ID_Pabrikasi', $ID_Pabrikasi, PDO::PARAM_INT);
+            $query->bindParam(':ID_Mobil', $ID_Mobil, PDO::PARAM_INT);
+            $query->bindParam(':ID_Karyawan', $ID_Karyawan, PDO::PARAM_INT);
+            $query->bindParam(':Tanggal_Produksi_Pabrikasi', $Tanggal_Produksi_Pabrikasi, PDO::PARAM_DATE);
+
+            $query->execute();
+    
+            $response->getBody()->write(json_encode(
+                [
+                    'message' => 'Data Mobil dengan ID ' . $ID_Pabrikasi . ' telah diperbarui'
+                ]
+            ));
+        } catch (PDOException $e) {
+            $response = $response->withStatus(500);
+            $response->getBody()->write(json_encode([
+                'message' => 'Terdapat error pada database ' . $e->getMessage()
+            ]));
+        }
+    
+        return $response->withHeader("Content-Type", "application/json");
+    });
+
+
+    //pemasok
+    $app->put('/pemasok/{ID_Pemasok}', function (Request $request, Response $response, $args) {
+        $parsedBody = $request->getParsedBody();
+    
+        $ID_Pemasok = $args['ID_Pemasok'];
+        $Nama_Pemasok = $parsedBody["Nama_Pemasok"];
+        $Alamat_Pemasok = $parsedBody["Alamat_Pemasok"];
+        $Kontak_Pemasok = $parsedBody["Kontak_Pemasok"];
+
+        $db = $this->get(PDO::class);
+    
+        try {
+            // Membuat panggilan ke stored procedure yang sesuai
+            $query = $db->prepare('CALL Update_Pemasok_ByID(:ID_Pemasok, :Nama_Pemasok, :Alamat_Pemasok, :Kontak_Pemasok)');
+            $query->bindParam(':ID_Pemasok', $ID_Pemasok, PDO::PARAM_INT);
+            $query->bindParam(':Nama_Pemasok', $Nama_Pemasok, PDO::PARAM_STR);
+            $query->bindParam(':Alamat_Pemasok', $Alamat_Pemasok, PDO::PARAM_STR);
+            $query->bindParam(':Kontak_Pemasok', $Kontak_Pemasok, PDO::PARAM_STR);
+        
+
+            $query->execute();
+    
+            $response->getBody()->write(json_encode(
+                [
+                    'message' => 'Data Mobil dengan ID ' . $ID_Pemasok . ' telah diperbarui'
+                ]
+            ));
+        } catch (PDOException $e) {
+            $response = $response->withStatus(500);
+            $response->getBody()->write(json_encode([
+                'message' => 'Terdapat error pada database ' . $e->getMessage()
+            ]));
+        }
+    
+        return $response->withHeader("Content-Type", "application/json");
+    });
+
+
+    //suku cadang
+    $app->put('/suku_cadang/{ID_Suku_Cadang}', function (Request $request, Response $response, $args) {
+        $parsedBody = $request->getParsedBody();
+    
+        $ID_Suku_Cadang = $args['ID_Suku_Cadang'];
+        $ID_Bahan = $parsedBody["ID_Bahan"];
+        $Nama_Suku_Cadang = $parsedBody["Nama_Suku_Cadang"];
+        $Deskripsi_Suku_Cadang = $parsedBody["Deskripsi_Suku_Cadang"];
+        $Harga_Suku_Cadang = $parsedBody["Harga_Suku_Cadang"];
+
+        $db = $this->get(PDO::class);
+    
+        try {
+            // Membuat panggilan ke stored procedure yang sesuai
+            $query = $db->prepare('CALL Update_Suku_Cadang_ByID(:ID_Suku_Cadang, :ID_Bahan, :Nama_Suku_Cadang, :Deskripsi_Suku_Cadang, :Harga_Suku_Cadang)');
+            $query->bindParam(':ID_Suku_Cadang', $ID_Suku_Cadang, PDO::PARAM_INT);
+            $query->bindParam(':ID_Bahan', $ID_Bahan, PDO::PARAM_INT);
+            $query->bindParam(':Nama_Suku_Cadang', $Nama_Suku_Cadang, PDO::PARAM_STR);
+            $query->bindParam(':Deskripsi_Suku_Cadang', $Deskripsi_Suku_Cadang, PDO::PARAM_STR); // Pastikan ini sesuai dengan tipe data di database
+            $query->bindParam(':Harga_Suku_Cadang', $Harga_Suku_Cadang, PDO::PARAM_INT);
+
+            $query->execute();
+    
+            $response->getBody()->write(json_encode(
+                [
+                    'message' => 'Data Mobil dengan ID ' . $ID_Suku_Cadang . ' telah diperbarui'
+                ]
+            ));
+        } catch (PDOException $e) {
+            $response = $response->withStatus(500);
+            $response->getBody()->write(json_encode([
+                'message' => 'Terdapat error pada database ' . $e->getMessage()
+            ]));
+        }
+    
+        return $response->withHeader("Content-Type", "application/json");
+    });
+
+
+    
+    
+
+
 
 
 
@@ -826,4 +1136,8 @@ return function (App $app) {
 
 };
 
+
+
+
+//php -S localhost:8888 -t public
 
