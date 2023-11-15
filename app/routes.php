@@ -1084,22 +1084,168 @@ return function (App $app) {
     
     
 
-
-
-
-
-
-
-    
     //delete
-    $app->delete('/user/{id}', function (Request $request, Response $response, $args) {
-        $currentId = $args['id'];
+    //bahan baku
+    $app->delete('/bahan_baku/{ID_Bahan}', function (Request $request, Response $response, $args) {
+        $currentId = $args['ID_Bahan'];
         $db = $this->get(PDO::class);
 
         try {
             // Membuat panggilan ke stored procedure hapusPengguna
-            $query = $db->prepare('CALL hapusPengguna(:idPengguna)');
-            $query->bindParam(':idPengguna', $currentId, PDO::PARAM_INT);
+            $query = $db->prepare('CALL Delete_Bahan_Baku_ByID(:ID_Bahan)');
+            $query->bindParam(':ID_Bahan', $currentId, PDO::PARAM_INT);
+            $query->execute();
+
+            if ($query->rowCount() === 0) {
+                $response = $response->withStatus(404);
+                $response->getBody()->write(json_encode(
+                    [
+                        'message' => 'Data tidak ditemukan'
+                    ]
+                ));
+            } else {
+                $response->getBody()->write(json_encode(
+                    [
+                        'message' => 'Pengguna dengan ID ' . $currentId . ' telah dihapus dari database'
+                    ]
+                ));
+            }
+        } catch (PDOException $e) {
+            $response = $response->withStatus(500);
+            $response->getBody()->write(json_encode(
+                [
+                    'message' => 'Database error ' . $e->getMessage()
+                ]
+            ));
+        }
+
+        return $response->withHeader("Content-Type", "application/json");
+    });
+
+
+    //departemen
+    $app->delete('/departemen/{ID_Departemen}', function (Request $request, Response $response, $args) {
+        $currentId = $args['ID_Departemen'];
+        $db = $this->get(PDO::class);
+
+        try {
+            // Membuat panggilan ke stored procedure hapusPengguna
+            $query = $db->prepare('CALL Delete_Departemen_ByID(:ID_Departemen)');
+            $query->bindParam(':ID_Departemen', $currentId, PDO::PARAM_INT);
+            $query->execute();
+
+            if ($query->rowCount() === 0) {
+                $response = $response->withStatus(404);
+                $response->getBody()->write(json_encode(
+                    [
+                        'message' => 'Data tidak ditemukan'
+                    ]
+                ));
+            } else {
+                $response->getBody()->write(json_encode(
+                    [
+                        'message' => 'Pengguna dengan ID ' . $currentId . ' telah dihapus dari database'
+                    ]
+                ));
+            }
+        } catch (PDOException $e) {
+            $response = $response->withStatus(500);
+            $response->getBody()->write(json_encode(
+                [
+                    'message' => 'Database error ' . $e->getMessage()
+                ]
+            ));
+        }
+
+        return $response->withHeader("Content-Type", "application/json");
+    });
+
+
+    //karyawan
+    $app->delete('/karyawan/{ID_Karyawan}', function (Request $request, Response $response, $args) {
+        $currentId = $args['ID_Karyawan'];
+        $db = $this->get(PDO::class);
+
+        try {
+            // Membuat panggilan ke stored procedure hapusPengguna
+            $query = $db->prepare('CALL Delete_Karyawan_ByID(:ID_Karyawan)');
+            $query->bindParam(':ID_Karyawan', $currentId, PDO::PARAM_INT);
+            $query->execute();
+
+            if ($query->rowCount() === 0) {
+                $response = $response->withStatus(404);
+                $response->getBody()->write(json_encode(
+                    [
+                        'message' => 'Data tidak ditemukan'
+                    ]
+                ));
+            } else {
+                $response->getBody()->write(json_encode(
+                    [
+                        'message' => 'Pengguna dengan ID ' . $currentId . ' telah dihapus dari database'
+                    ]
+                ));
+            }
+        } catch (PDOException $e) {
+            $response = $response->withStatus(500);
+            $response->getBody()->write(json_encode(
+                [
+                    'message' => 'Database error ' . $e->getMessage()
+                ]
+            ));
+        }
+
+        return $response->withHeader("Content-Type", "application/json");
+    });
+
+    
+    //mobil
+    $app->delete('/mobil/{ID_Mobil}', function (Request $request, Response $response, $args) {
+        $currentId = $args['ID_Mobil'];
+        $db = $this->get(PDO::class);
+
+        try {
+            // Membuat panggilan ke stored procedure hapusPengguna
+            $query = $db->prepare('CALL Delete_Mobil_ByID(:ID_Mobil)');
+            $query->bindParam(':ID_Mobil', $currentId, PDO::PARAM_INT);
+            $query->execute();
+
+            if ($query->rowCount() === 0) {
+                $response = $response->withStatus(404);
+                $response->getBody()->write(json_encode(
+                    [
+                        'message' => 'Data tidak ditemukan'
+                    ]
+                ));
+            } else {
+                $response->getBody()->write(json_encode(
+                    [
+                        'message' => 'Pengguna dengan ID ' . $currentId . ' telah dihapus dari database'
+                    ]
+                ));
+            }
+        } catch (PDOException $e) {
+            $response = $response->withStatus(500);
+            $response->getBody()->write(json_encode(
+                [
+                    'message' => 'Database error ' . $e->getMessage()
+                ]
+            ));
+        }
+
+        return $response->withHeader("Content-Type", "application/json");
+    });
+
+
+    //model mobil
+    $app->delete('/model_mobil/{ID_Model}', function (Request $request, Response $response, $args) {
+        $currentId = $args['ID_Model'];
+        $db = $this->get(PDO::class);
+
+        try {
+            // Membuat panggilan ke stored procedure hapusPengguna
+            $query = $db->prepare('CALL Delete_Model_Mobil_ByID(:ID_Model)');
+            $query->bindParam(':ID_Model', $currentId, PDO::PARAM_INT);
             $query->execute();
 
             if ($query->rowCount() === 0) {
@@ -1130,9 +1276,157 @@ return function (App $app) {
 
 
 
+    //pabrik
+    $app->delete('/pabrik/{ID_Pabrik}', function (Request $request, Response $response, $args) {
+        $currentId = $args['ID_Pabrik'];
+        $db = $this->get(PDO::class);
+
+        try {
+            // Membuat panggilan ke stored procedure hapusPengguna
+            $query = $db->prepare('CALL Delete_Departemen_ByID(:ID_Pabrik)');
+            $query->bindParam(':ID_Pabrik', $currentId, PDO::PARAM_INT);
+            $query->execute();
+
+            if ($query->rowCount() === 0) {
+                $response = $response->withStatus(404);
+                $response->getBody()->write(json_encode(
+                    [
+                        'message' => 'Data tidak ditemukan'
+                    ]
+                ));
+            } else {
+                $response->getBody()->write(json_encode(
+                    [
+                        'message' => 'Pengguna dengan ID ' . $currentId . ' telah dihapus dari database'
+                    ]
+                ));
+            }
+        } catch (PDOException $e) {
+            $response = $response->withStatus(500);
+            $response->getBody()->write(json_encode(
+                [
+                    'message' => 'Database error ' . $e->getMessage()
+                ]
+            ));
+        }
+
+        return $response->withHeader("Content-Type", "application/json");
+    });
 
 
-    
+    //pabrikasi mobil
+    $app->delete('/pabrikasi_mobil/{ID_Pabrikasi}', function (Request $request, Response $response, $args) {
+        $currentId = $args['ID_Pabrikasi'];
+        $db = $this->get(PDO::class);
+
+        try {
+            // Membuat panggilan ke stored procedure hapusPengguna
+            $query = $db->prepare('CALL Delete_Departemen_ByID(:ID_Pabrikasi)');
+            $query->bindParam(':ID_Pabrikasi', $currentId, PDO::PARAM_INT);
+            $query->execute();
+
+            if ($query->rowCount() === 0) {
+                $response = $response->withStatus(404);
+                $response->getBody()->write(json_encode(
+                    [
+                        'message' => 'Data tidak ditemukan'
+                    ]
+                ));
+            } else {
+                $response->getBody()->write(json_encode(
+                    [
+                        'message' => 'Pengguna dengan ID ' . $currentId . ' telah dihapus dari database'
+                    ]
+                ));
+            }
+        } catch (PDOException $e) {
+            $response = $response->withStatus(500);
+            $response->getBody()->write(json_encode(
+                [
+                    'message' => 'Database error ' . $e->getMessage()
+                ]
+            ));
+        }
+
+        return $response->withHeader("Content-Type", "application/json");
+    });
+
+
+    //pemasok
+    $app->delete('/pemasok/{ID_Pemasok}', function (Request $request, Response $response, $args) {
+        $currentId = $args['ID_Pemasok'];
+        $db = $this->get(PDO::class);
+
+        try {
+            // Membuat panggilan ke stored procedure hapusPengguna
+            $query = $db->prepare('CALL Delete_Departemen_ByID(:ID_Pemasok)');
+            $query->bindParam(':ID_Pemasok', $currentId, PDO::PARAM_INT);
+            $query->execute();
+
+            if ($query->rowCount() === 0) {
+                $response = $response->withStatus(404);
+                $response->getBody()->write(json_encode(
+                    [
+                        'message' => 'Data tidak ditemukan'
+                    ]
+                ));
+            } else {
+                $response->getBody()->write(json_encode(
+                    [
+                        'message' => 'Pengguna dengan ID ' . $currentId . ' telah dihapus dari database'
+                    ]
+                ));
+            }
+        } catch (PDOException $e) {
+            $response = $response->withStatus(500);
+            $response->getBody()->write(json_encode(
+                [
+                    'message' => 'Database error ' . $e->getMessage()
+                ]
+            ));
+        }
+
+        return $response->withHeader("Content-Type", "application/json");
+    });
+
+
+
+    //suku_cadang
+    $app->delete('/suku_cadang/{ID_Suku_Cadang}', function (Request $request, Response $response, $args) {
+        $currentId = $args['ID_Suku_Cadang'];
+        $db = $this->get(PDO::class);
+
+        try {
+            // Membuat panggilan ke stored procedure hapusPengguna
+            $query = $db->prepare('CALL Delete_Departemen_ByID(:ID_Suku_Cadang)');
+            $query->bindParam(':ID_Suku_Cadang', $currentId, PDO::PARAM_INT);
+            $query->execute();
+
+            if ($query->rowCount() === 0) {
+                $response = $response->withStatus(404);
+                $response->getBody()->write(json_encode(
+                    [
+                        'message' => 'Data tidak ditemukan'
+                    ]
+                ));
+            } else {
+                $response->getBody()->write(json_encode(
+                    [
+                        'message' => 'Pengguna dengan ID ' . $currentId . ' telah dihapus dari database'
+                    ]
+                ));
+            }
+        } catch (PDOException $e) {
+            $response = $response->withStatus(500);
+            $response->getBody()->write(json_encode(
+                [
+                    'message' => 'Database error ' . $e->getMessage()
+                ]
+            ));
+        }
+
+        return $response->withHeader("Content-Type", "application/json");
+    });
 
 };
 
