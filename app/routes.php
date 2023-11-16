@@ -468,11 +468,11 @@ return function (App $app) {
 
         // Membuat panggilan ke stored procedure tambahPengguna
         $query = $db->prepare('CALL Insert_Bahan_Baku(:ID_Bahan, :ID_Pemasok, :Nama_Bahan, :Harga_Bahan, :Jumlah_Stok)');
-        $query->bindParam(':ID_Bahan', $ID_Bahan, PDO::PARAM_STR);
-        $query->bindParam(':ID_Pemasok', $ID_Pemasok, PDO::PARAM_STR);
+        $query->bindParam(':ID_Bahan', $ID_Bahan, PDO::PARAM_INT);
+        $query->bindParam(':ID_Pemasok', $ID_Pemasok, PDO::PARAM_INT);
         $query->bindParam(':Nama_Bahan', $Nama_Bahan, PDO::PARAM_STR);
-        $query->bindParam(':Harga_Bahan', $Harga_Bahan, PDO::PARAM_STR);
-        $query->bindParam(':Jumlah_Stok', $Jumlah_Stok, PDO::PARAM_STR);
+        $query->bindParam(':Harga_Bahan', $Harga_Bahan, PDO::PARAM_INT);
+        $query->bindParam(':Jumlah_Stok', $Jumlah_Stok, PDO::PARAM_INT);
 
         $query->execute();
 
@@ -499,8 +499,8 @@ return function (App $app) {
 
         // Membuat panggilan ke stored procedure tambahPengguna
         $query = $db->prepare('CALL Insert_Departemen(:ID_Departemen, :ID_Pabrik, :Nama_Departemen)');
-        $query->bindParam(':ID_Departemen', $ID_Departemen, PDO::PARAM_STR);
-        $query->bindParam(':ID_Pabrik', $ID_Pabrik, PDO::PARAM_STR);
+        $query->bindParam(':ID_Departemen', $ID_Departemen, PDO::PARAM_INT);
+        $query->bindParam(':ID_Pabrik', $ID_Pabrik, PDO::PARAM_INT);
         $query->bindParam(':Nama_Departemen', $Nama_Departemen, PDO::PARAM_STR);
 
         $query->execute();
@@ -529,11 +529,11 @@ return function (App $app) {
 
         // Membuat panggilan ke stored procedure tambahPengguna
         $query = $db->prepare('CALL Insert_Karyawan(:ID_Karyawan, :ID_Departemen, :Nama_Karyawan, :Jabatan, :Tanggal_Masuk)');
-        $query->bindParam(':ID_Karyawan', $ID_Karyawan, PDO::PARAM_STR);
-        $query->bindParam(':ID_Departemen', $ID_Departemen, PDO::PARAM_STR);
+        $query->bindParam(':ID_Karyawan', $ID_Karyawan, PDO::PARAM_INT);
+        $query->bindParam(':ID_Departemen', $ID_Departemen, PDO::PARAM_INT);
         $query->bindParam(':Nama_Karyawan', $Nama_Karyawan, PDO::PARAM_STR);
         $query->bindParam(':Jabatan', $Jabatan, PDO::PARAM_STR);
-        $query->bindParam(':Tanggal_Masuk', $Tanggal_Masuk, PDO::PARAM_STR);
+        $query->bindParam(':Tanggal_Masuk', $Tanggal_Masuk, PDO::PARAM_DATE);
 
         $query->execute();
 
@@ -563,12 +563,12 @@ return function (App $app) {
 
         // Membuat panggilan ke stored procedure tambahPengguna
         $query = $db->prepare('CALL Insert_Mobil(:ID_Mobil, :ID_Pabrik, :ID_Bahan, :ID_Model, :Nama_Mobil, :Tahun_Produksi, :Warna_Mobil)');
-        $query->bindParam(':ID_Mobil', $ID_Mobil, PDO::PARAM_STR);
-        $query->bindParam(':ID_Pabrik', $ID_Pabrik, PDO::PARAM_STR);
-        $query->bindParam(':ID_Bahan', $ID_Bahan, PDO::PARAM_STR);
-        $query->bindParam(':ID_Model', $ID_Model, PDO::PARAM_STR);
+        $query->bindParam(':ID_Mobil', $ID_Mobil, PDO::PARAM_INT);
+        $query->bindParam(':ID_Pabrik', $ID_Pabrik, PDO::PARAM_INT);
+        $query->bindParam(':ID_Bahan', $ID_Bahan, PDO::PARAM_INT);
+        $query->bindParam(':ID_Model', $ID_Model, PDO::PARAM_INT);
         $query->bindParam(':Nama_Mobil', $Nama_Mobil, PDO::PARAM_STR);
-        $query->bindParam(':Tahun_Produksi', $Tahun_Produksi, PDO::PARAM_STR);
+        $query->bindParam(':Tahun_Produksi', $Tahun_Produksi, PDO::PARAM_DATE);
         $query->bindParam(':Warna_Mobil', $Warna_Mobil, PDO::PARAM_STR);
 
         $query->execute();
@@ -596,7 +596,7 @@ return function (App $app) {
 
         // Membuat panggilan ke stored procedure tambahPengguna
         $query = $db->prepare('CALL Insert_Model_Mobil(:ID_Model, :Nama_Model, :Spesifikasi_Model)');
-        $query->bindParam(':ID_Model', $ID_Model, PDO::PARAM_STR);
+        $query->bindParam(':ID_Model', $ID_Model, PDO::PARAM_INT);
         $query->bindParam(':Nama_Model', $Nama_Model, PDO::PARAM_STR);
         $query->bindParam(':Spesifikasi_Model', $Spesifikasi_Model, PDO::PARAM_STR);
         
@@ -656,10 +656,10 @@ return function (App $app) {
 
         // Membuat panggilan ke stored procedure tambahPengguna
         $query = $db->prepare('CALL Insert_Pabrikasi_Mobil(:ID_Pabrikasi, :ID_Mobil, :ID_Karyawan, :Tanggal_Produksi_Pabrikasi)');
-        $query->bindParam(':ID_Pabrikasi', $ID_Pabrikasi, PDO::PARAM_STR);
-        $query->bindParam(':ID_Mobil', $ID_Mobil, PDO::PARAM_STR);
-        $query->bindParam(':ID_Karyawan', $ID_Karyawan, PDO::PARAM_STR);
-        $query->bindParam(':Tanggal_Produksi_Pabrikasi', $Tanggal_Produksi_Pabrikasi, PDO::PARAM_STR);
+        $query->bindParam(':ID_Pabrikasi', $ID_Pabrikasi, PDO::PARAM_INT);
+        $query->bindParam(':ID_Mobil', $ID_Mobil, PDO::PARAM_INT);
+        $query->bindParam(':ID_Karyawan', $ID_Karyawan, PDO::PARAM_INT);
+        $query->bindParam(':Tanggal_Produksi_Pabrikasi', $Tanggal_Produksi_Pabrikasi, PDO::PARAM_DATE);
        
         $query->execute();
 
@@ -685,7 +685,7 @@ return function (App $app) {
 
         // Membuat panggilan ke stored procedure tambahPengguna
         $query = $db->prepare('CALL Insert_Pemasok(:ID_Pemasok, :Nama_Pemasok, :Alamat_Pemasok, :Kontak_Pemasok)');
-        $query->bindParam(':ID_Pemasok', $ID_Pemasok, PDO::PARAM_STR);
+        $query->bindParam(':ID_Pemasok', $ID_Pemasok, PDO::PARAM_INT);
         $query->bindParam(':Nama_Pemasok', $Nama_Pemasok, PDO::PARAM_STR);
         $query->bindParam(':Alamat_Pemasok', $Alamat_Pemasok, PDO::PARAM_STR);
         $query->bindParam(':Kontak_Pemasok', $Kontak_Pemasok, PDO::PARAM_STR);
@@ -716,11 +716,11 @@ return function (App $app) {
 
         // Membuat panggilan ke stored procedure tambahPengguna
         $query = $db->prepare('CALL Insert_Suku_Cadang(:ID_Suku_Cadang, :ID_Bahan, :Nama_Suku_Cadang, :Deskripsi_Suku_Cadang, :Harga_Suku_Cadang)');
-        $query->bindParam(':ID_Suku_Cadang', $ID_Suku_Cadang, PDO::PARAM_STR);
-        $query->bindParam(':ID_Bahan', $ID_Bahan, PDO::PARAM_STR);
+        $query->bindParam(':ID_Suku_Cadang', $ID_Suku_Cadang, PDO::PARAM_INT);
+        $query->bindParam(':ID_Bahan', $ID_Bahan, PDO::PARAM_INT);
         $query->bindParam(':Nama_Suku_Cadang', $Nama_Suku_Cadang, PDO::PARAM_STR);
         $query->bindParam(':Deskripsi_Suku_Cadang', $Deskripsi_Suku_Cadang, PDO::PARAM_STR);
-        $query->bindParam(':Harga_Suku_Cadang', $Harga_Suku_Cadang, PDO::PARAM_STR);
+        $query->bindParam(':Harga_Suku_Cadang', $Harga_Suku_Cadang, PDO::PARAM_INT);
         $query->execute();
 
         $response->getBody()->write(json_encode(
@@ -752,9 +752,9 @@ return function (App $app) {
             // Membuat panggilan ke stored procedure yang sesuai
             $query = $db->prepare('CALL Update_Bahan_Baku_ByID(:ID_Bahan, :ID_Pemasok, :Nama_Bahan, :Harga_Bahan, :Jumlah_Stok)');
             $query->bindParam(':ID_Bahan', $ID_Bahan, PDO::PARAM_INT);
-            $query->bindParam(':ID_Pemasok', $ID_Pemasok, PDO::PARAM_STR);
+            $query->bindParam(':ID_Pemasok', $ID_Pemasok, PDO::PARAM_INT);
             $query->bindParam(':Nama_Bahan', $Nama_Bahan, PDO::PARAM_STR);
-            $query->bindParam(':Harga_Bahan', $Harga_Bahan, PDO::PARAM_STR);
+            $query->bindParam(':Harga_Bahan', $Harga_Bahan, PDO::PARAM_INT);
             $query->bindParam(':Jumlah_Stok', $Jumlah_Stok, PDO::PARAM_INT); // Pastikan ini sesuai dengan tipe data di database
     
             $query->execute();
@@ -789,7 +789,7 @@ return function (App $app) {
             // Membuat panggilan ke stored procedure yang sesuai
             $query = $db->prepare('CALL Update_Departemen_ByID(:ID_Departemen, :ID_Pabrik, :Nama_Departemen)');
             $query->bindParam(':ID_Departemen', $ID_Departemen, PDO::PARAM_INT);
-            $query->bindParam(':ID_Pabrik', $ID_Pabrik, PDO::PARAM_STR);
+            $query->bindParam(':ID_Pabrik', $ID_Pabrik, PDO::PARAM_INT);
             $query->bindParam(':Nama_Departemen', $Nama_Departemen, PDO::PARAM_STR);
             
             $query->execute();
@@ -826,10 +826,10 @@ return function (App $app) {
             // Membuat panggilan ke stored procedure yang sesuai
             $query = $db->prepare('CALL Update_Karyawan_ByID(:ID_Karyawan, :ID_Departemen, :Nama_Karyawan, :Jabatan, :Tanggal_Masuk)');
             $query->bindParam(':ID_Karyawan', $ID_Karyawan, PDO::PARAM_INT);
-            $query->bindParam(':ID_Departemen', $ID_Departemen, PDO::PARAM_STR);
+            $query->bindParam(':ID_Departemen', $ID_Departemen, PDO::PARAM_INT);
             $query->bindParam(':Nama_Karyawan', $Nama_Karyawan, PDO::PARAM_STR);
             $query->bindParam(':Jabatan', $Jabatan, PDO::PARAM_STR);
-            $query->bindParam(':Tanggal_Masuk', $Tanggal_Masuk, PDO::PARAM_INT); // Pastikan ini sesuai dengan tipe data di database
+            $query->bindParam(':Tanggal_Masuk', $Tanggal_Masuk, PDO::PARAM_DATE); // Pastikan ini sesuai dengan tipe data di database
     
             $query->execute();
     
@@ -871,7 +871,7 @@ return function (App $app) {
             $query->bindParam(':ID_Bahan', $ID_Bahan, PDO::PARAM_INT);
             $query->bindParam(':ID_Model', $ID_Model, PDO::PARAM_INT);
             $query->bindParam(':Nama_Mobil', $Nama_Mobil, PDO::PARAM_STR); // Pastikan ini sesuai dengan tipe data di database
-            $query->bindParam(':Tahun_Produksi', $Tahun_Produksi, PDO::PARAM_STR);
+            $query->bindParam(':Tahun_Produksi', $Tahun_Produksi, PDO::PARAM_DATE);
             $query->bindParam(':Warna_Mobil', $Warna_Mobil, PDO::PARAM_STR);
 
             $query->execute();
@@ -952,7 +952,7 @@ return function (App $app) {
     
             $response->getBody()->write(json_encode(
                 [
-                    'message' => 'Data Mobil dengan ID ' . $ID_Pabrik . ' telah diperbarui'
+                    'message' => 'Data Pabrik dengan ID ' . $ID_Pabrik . ' telah diperbarui'
                 ]
             ));
         } catch (PDOException $e) {
@@ -990,7 +990,7 @@ return function (App $app) {
     
             $response->getBody()->write(json_encode(
                 [
-                    'message' => 'Data Mobil dengan ID ' . $ID_Pabrikasi . ' telah diperbarui'
+                    'message' => 'Data Pabrikasi Mobil dengan ID ' . $ID_Pabrikasi . ' telah diperbarui'
                 ]
             ));
         } catch (PDOException $e) {
@@ -1028,7 +1028,7 @@ return function (App $app) {
     
             $response->getBody()->write(json_encode(
                 [
-                    'message' => 'Data Mobil dengan ID ' . $ID_Pemasok . ' telah diperbarui'
+                    'message' => 'Data Pemasok dengan ID ' . $ID_Pemasok . ' telah diperbarui'
                 ]
             ));
         } catch (PDOException $e) {
@@ -1067,7 +1067,7 @@ return function (App $app) {
     
             $response->getBody()->write(json_encode(
                 [
-                    'message' => 'Data Mobil dengan ID ' . $ID_Suku_Cadang . ' telah diperbarui'
+                    'message' => 'Data Suku Cadang dengan ID ' . $ID_Suku_Cadang . ' telah diperbarui'
                 ]
             ));
         } catch (PDOException $e) {
@@ -1106,7 +1106,7 @@ return function (App $app) {
             } else {
                 $response->getBody()->write(json_encode(
                     [
-                        'message' => 'Pengguna dengan ID ' . $currentId . ' telah dihapus dari database'
+                        'message' => 'Bahan Baku dengan ID ' . $currentId . ' telah dihapus dari database'
                     ]
                 ));
             }
@@ -1144,7 +1144,7 @@ return function (App $app) {
             } else {
                 $response->getBody()->write(json_encode(
                     [
-                        'message' => 'Pengguna dengan ID ' . $currentId . ' telah dihapus dari database'
+                        'message' => 'Departemen dengan ID ' . $currentId . ' telah dihapus dari database'
                     ]
                 ));
             }
@@ -1182,7 +1182,7 @@ return function (App $app) {
             } else {
                 $response->getBody()->write(json_encode(
                     [
-                        'message' => 'Pengguna dengan ID ' . $currentId . ' telah dihapus dari database'
+                        'message' => 'Karyawan dengan ID ' . $currentId . ' telah dihapus dari database'
                     ]
                 ));
             }
@@ -1220,7 +1220,7 @@ return function (App $app) {
             } else {
                 $response->getBody()->write(json_encode(
                     [
-                        'message' => 'Pengguna dengan ID ' . $currentId . ' telah dihapus dari database'
+                        'message' => 'Mobil dengan ID ' . $currentId . ' telah dihapus dari database'
                     ]
                 ));
             }
@@ -1258,7 +1258,7 @@ return function (App $app) {
             } else {
                 $response->getBody()->write(json_encode(
                     [
-                        'message' => 'Pengguna dengan ID ' . $currentId . ' telah dihapus dari database'
+                        'message' => 'Model Mobil dengan ID ' . $currentId . ' telah dihapus dari database'
                     ]
                 ));
             }
@@ -1297,7 +1297,7 @@ return function (App $app) {
             } else {
                 $response->getBody()->write(json_encode(
                     [
-                        'message' => 'Pengguna dengan ID ' . $currentId . ' telah dihapus dari database'
+                        'message' => 'Pabrik dengan ID ' . $currentId . ' telah dihapus dari database'
                     ]
                 ));
             }
@@ -1335,7 +1335,7 @@ return function (App $app) {
             } else {
                 $response->getBody()->write(json_encode(
                     [
-                        'message' => 'Pengguna dengan ID ' . $currentId . ' telah dihapus dari database'
+                        'message' => 'Pabrikasi Mobil dengan ID ' . $currentId . ' telah dihapus dari database'
                     ]
                 ));
             }
@@ -1373,7 +1373,7 @@ return function (App $app) {
             } else {
                 $response->getBody()->write(json_encode(
                     [
-                        'message' => 'Pengguna dengan ID ' . $currentId . ' telah dihapus dari database'
+                        'message' => 'Pemasok dengan ID ' . $currentId . ' telah dihapus dari database'
                     ]
                 ));
             }
@@ -1412,7 +1412,7 @@ return function (App $app) {
             } else {
                 $response->getBody()->write(json_encode(
                     [
-                        'message' => 'Pengguna dengan ID ' . $currentId . ' telah dihapus dari database'
+                        'message' => 'Suku Cadang dengan ID ' . $currentId . ' telah dihapus dari database'
                     ]
                 ));
             }
