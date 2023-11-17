@@ -43,9 +43,48 @@ $callableResolver = $app->getCallableResolver();
 $middleware = require __DIR__ . '/../app/middleware.php';
 $middleware($app);
 
-// Register routes
-$routes = require __DIR__ . '/../app/routes.php';
-$routes($app);
+// //Register routes
+// $routes = require __DIR__ . '/../app/routes.php';
+// $routes($app);
+
+// Register bahan baku
+$bahan_baku = require __DIR__ . '/../app/Query_DB/bahan_baku.php';
+$bahan_baku($app);
+
+// Register departemen
+$departemen = require __DIR__ . '/../app/Query_DB/departemen.php';
+$departemen($app);
+
+// Register karyawan
+$karyawan = require __DIR__ . '/../app/Query_DB/karyawan.php';
+$karyawan($app);
+
+// Register mobil
+$mobil = require __DIR__ . '/../app/Query_DB/mobil.php';
+$mobil($app);
+
+// Register model_mobil
+$model_mobil = require __DIR__ . '/../app/Query_DB/model_mobil.php';
+$model_mobil($app);
+
+// Register pabrik
+$pabrik = require __DIR__ . '/../app/Query_DB/pabrik.php';
+$pabrik($app);
+
+// Register pabrikasi_mobil
+$pabrikasi_mobil = require __DIR__ . '/../app/Query_DB/pabrikasi_mobil.php';
+$pabrikasi_mobil($app);
+
+// Register pemasok
+$pemasok = require __DIR__ . '/../app/Query_DB/pemasok.php';
+$pemasok($app);
+
+// Register suku_cadang
+$suku_cadang = require __DIR__ . '/../app/Query_DB/suku_cadang.php';
+$suku_cadang($app);
+
+
+
 
 /** @var SettingsInterface $settings */
 $settings = $container->get(SettingsInterface::class);
