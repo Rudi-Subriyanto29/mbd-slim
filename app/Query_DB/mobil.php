@@ -60,7 +60,7 @@ return function (App $app) {
         $query->bindParam(':ID_Bahan', $ID_Bahan, PDO::PARAM_INT);
         $query->bindParam(':ID_Model', $ID_Model, PDO::PARAM_INT);
         $query->bindParam(':Nama_Mobil', $Nama_Mobil, PDO::PARAM_STR);
-        $query->bindParam(':Tahun_Produksi', $Tahun_Produksi, PDO::PARAM_DATE);
+        $query->bindParam(':Tahun_Produksi', $Tahun_Produksi, PDO::PARAM_INT);
         $query->bindParam(':Warna_Mobil', $Warna_Mobil, PDO::PARAM_STR);
 
         $query->execute();
