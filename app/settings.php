@@ -24,8 +24,8 @@ return function (ContainerBuilder $containerBuilder) {
                 'db' => [
                     'host' => '127.0.0.1',
                     'dbname' => 'pabrik_mobil',
-                    'user' => 'root',
-                    'password' => '',
+                    'user' => 'user_publik',
+                    'password' => 'umum123',
                 ]
             ]);
         },

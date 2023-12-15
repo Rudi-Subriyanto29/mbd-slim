@@ -83,6 +83,10 @@ $pemasok($app);
 $suku_cadang = require __DIR__ . '/../app/Query_DB/suku_cadang.php';
 $suku_cadang($app);
 
+// Register view
+$gabungan = require __DIR__ . '/../app/Query_DB/gabungan.php';
+$gabungan($app);
+
 
 
 
